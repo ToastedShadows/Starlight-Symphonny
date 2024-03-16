@@ -10,6 +10,17 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 input;
 
+    private Animator animator;
+
+    public LayerMask solidObjectsLayer; // Changed private to public
+
+    public LayerMask interactableLayer;
+
+    private void Start() // Changed from Update to Start
+    {
+        animator = GetComponent<Animator>(); // Added this line to get the Animator component
+    }
+
     private void Update()
     {
         if (!isMoving) //checks if equal to false 
@@ -17,12 +28,31 @@ public class PlayerController : MonoBehaviour
             input.x = Input.GetAxisRaw("Horizontal");
             input.y = Input.GetAxisRaw("Vertical");
 
+            if (input.x != 0) input.y = 0; // Added missing semicolon
+
             if (input != Vector2.zero)
             {
-                var targetPos = transform.position + new Vector3(input.x, input.y, 0); // Updated to add input directly to position
-                StartCoroutine(Move(targetPos)); // Added parentheses to StartCoroutine
+                animator.SetFloat("moveX", input.x); // Added missing semicolon and corrected syntax
+                animator.SetFloat("moveY", input.y); // Corrected syntax
+
+                var targetPos = transform.position;
+                targetPos.x += input.x;
+                targetPos.y += input.y;
+        
+                if (isWalkable(targetPos))
+                    StartCoroutine(Move(targetPos)); // Added parentheses to StartCoroutine
             }
         }
+        if (Input.GetKeyDown(KeyCode.Z))
+            Interact(); // Added missing parentheses
+    }
+
+    void Interact()
+    {
+        var facingDir = new Vector3(animator.GetFloat("moveX"), animator.GetFloat("moveY"));
+        var interactPos = transform.position + facingDir;
+
+        Debug.DrawLine(transform.position, interactPos, Color.red, 1f); // Added missing semicolon and corrected syntax
     }
 
     IEnumerator Move(Vector3 targetPos)
@@ -36,5 +66,15 @@ public class PlayerController : MonoBehaviour
         transform.position = targetPos; // Added semicolon here
 
         isMoving = false;
+    }
+
+    private bool isWalkable(Vector3 targetPos)
+    {
+        if (Physics2D.OverlapCircle(targetPos, 0.2f, solidObjectsLayer | interactableLayer) != null)
+        {
+            return false; // Added semicolon here
+        }
+        
+        return true;
     }
 }
