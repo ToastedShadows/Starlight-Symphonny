@@ -10,41 +10,40 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 input;
 
-    private Animator animator;
+    private Rigidbody2D body; // Added Rigidbody2D reference
 
-    public LayerMask solidObjectsLayer; // Changed private to public
+    private Animator animator;
 
     public LayerMask interactableLayer;
 
-    private void Start() // Changed from Update to Start
+    private void Start()
     {
-        animator = GetComponent<Animator>(); // Added this line to get the Animator component
+        body = GetComponent<Rigidbody2D>(); // Initialize Rigidbody2D reference
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        if (!isMoving) //checks if equal to false 
+        if (!isMoving)
         {
             input.x = Input.GetAxisRaw("Horizontal");
             input.y = Input.GetAxisRaw("Vertical");
 
-            if (input.x != 0) input.y = 0; // Added missing semicolon
+            if (input.x != 0) input.y = 0;
 
             if (input != Vector2.zero)
             {
-                animator.SetFloat("moveX", input.x); // Added missing semicolon and corrected syntax
-                animator.SetFloat("moveY", input.y); // Corrected syntax
+                animator.SetFloat("moveX", input.x);
+                animator.SetFloat("moveY", input.y);
 
-                var targetPos = transform.position;
-                targetPos.x += input.x;
-                targetPos.y += input.y;
-        
-                if (isWalkable(targetPos))
-                    StartCoroutine(Move(targetPos)); // Added parentheses to StartCoroutine
+                Vector2 movement = input * moveSpeed * Time.deltaTime;
+                Vector2 newPosition = body.position + movement;
+
+                body.MovePosition(newPosition);
             }
         }
         if (Input.GetKeyDown(KeyCode.Z))
-            Interact(); // Added missing parentheses
+            Interact();
     }
 
     void Interact()
@@ -52,29 +51,6 @@ public class PlayerController : MonoBehaviour
         var facingDir = new Vector3(animator.GetFloat("moveX"), animator.GetFloat("moveY"));
         var interactPos = transform.position + facingDir;
 
-        Debug.DrawLine(transform.position, interactPos, Color.red, 1f); // Added missing semicolon and corrected syntax
-    }
-
-    IEnumerator Move(Vector3 targetPos)
-    {
-        isMoving = true; // Added semicolon here
-        while ((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)//if anything bigger than 0 move character
-        {
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
-            yield return null;
-        }
-        transform.position = targetPos; // Added semicolon here
-
-        isMoving = false;
-    }
-
-    private bool isWalkable(Vector3 targetPos)
-    {
-        if (Physics2D.OverlapCircle(targetPos, 0.2f, solidObjectsLayer | interactableLayer) != null)
-        {
-            return false; // Added semicolon here
-        }
-        
-        return true;
+        Debug.DrawLine(transform.position, interactPos, Color.red, 1f);
     }
 }
