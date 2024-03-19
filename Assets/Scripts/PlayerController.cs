@@ -71,13 +71,12 @@ public class PlayerController : MonoBehaviour
         Vector3 interactPos = transform.position + new Vector3(lastInput.x, lastInput.y, 0f);
 
         // Check for collider with "Interactable" tag
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(interactPos, 0.2f);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(interactPos, 0.1f);
         foreach (Collider2D collider in colliders)
         {
             if (collider.CompareTag("Interactable"))
             {
-                Debug.Log("NPC");
-                break;
+                collider.GetComponent<Interactable>()?.Interact();
             }
         }
     }
