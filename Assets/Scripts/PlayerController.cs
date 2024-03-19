@@ -6,50 +6,78 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed;
 
-    private bool isMoving;
-
     private Vector2 input;
-
-    private Rigidbody2D body; // Added Rigidbody2D reference
+    private Vector2 lastInput; // Store the last non-zero input direction
+    private Rigidbody2D body;
+    private bool isMoving;
 
     private Animator animator;
 
     public LayerMask interactableLayer;
 
-    private void Start()
+    private void Awake()
     {
-        body = GetComponent<Rigidbody2D>(); // Initialize Rigidbody2D reference
         animator = GetComponent<Animator>();
+        body = GetComponent<Rigidbody2D>();
+    }
+
+    private void FixedUpdate()
+    {
+        MoveCharacter(); // Handle movement in FixedUpdate for physics consistency
+    }
+
+    private void MoveCharacter()
+    {
+        input.x = Input.GetAxisRaw("Horizontal");
+        input.y = Input.GetAxisRaw("Vertical");
+
+        // Set animator parameters for movement
+        animator.SetFloat("moveX", input.x);
+        animator.SetFloat("moveY", input.y);
+
+        if (input != Vector2.zero)
+        {
+            lastInput = input; // Store the last non-zero input direction
+            isMoving = true;
+            animator.SetBool("isMoving", isMoving);
+
+            Vector2 movement = input.normalized * moveSpeed * Time.fixedDeltaTime;
+            Vector2 newPosition = body.position + movement;
+
+            body.MovePosition(newPosition);
+        }
+        else
+        {
+            isMoving = false;
+            animator.SetBool("isMoving", isMoving);
+
+            // Face the last inputted direction when not moving and last input direction is not down
+            if (lastInput != Vector2.zero && lastInput.y != -1)
+            {
+                // Set animator parameters for facing direction
+                animator.SetFloat("moveX", lastInput.x);
+                animator.SetFloat("moveY", lastInput.y);
+            }
+        }
     }
 
     private void Update()
     {
-        if (!isMoving)
-        {
-            input.x = Input.GetAxisRaw("Horizontal");
-            input.y = Input.GetAxisRaw("Vertical");
-
-            if (input.x != 0) input.y = 0;
-
-            if (input != Vector2.zero)
-            {
-                animator.SetFloat("moveX", input.x);
-                animator.SetFloat("moveY", input.y);
-
-                Vector2 movement = input * moveSpeed * Time.deltaTime;
-                Vector2 newPosition = body.position + movement;
-
-                body.MovePosition(newPosition);
-            }
-        }
         if (Input.GetKeyDown(KeyCode.Z))
             Interact();
     }
 
-    void Interact()
+    private void Interact()
     {
-        var facingDir = new Vector3(animator.GetFloat("moveX"), animator.GetFloat("moveY"));
-        var interactPos = transform.position + facingDir;
+        // Calculate the facing direction manually
+        Vector3 facingDir = Vector3.right * input.x + Vector3.up * input.y;
+
+        // Normalize the facing direction if it's not zero
+        if (facingDir != Vector3.zero)
+            facingDir.Normalize();
+
+        // Calculate the interaction position based on the facing direction
+        Vector3 interactPos = transform.position + facingDir;
 
         Debug.DrawLine(transform.position, interactPos, Color.red, 1f);
     }
