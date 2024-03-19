@@ -13,8 +13,6 @@ public class PlayerController : MonoBehaviour
 
     private Animator animator;
 
-    public LayerMask interactableLayer;
-
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -69,16 +67,18 @@ public class PlayerController : MonoBehaviour
 
     private void Interact()
     {
-        // Calculate the facing direction manually
-        Vector3 facingDir = Vector3.right * input.x + Vector3.up * input.y;
+        // Calculate the interaction position based on the player's facing direction
+        Vector3 interactPos = transform.position + new Vector3(lastInput.x, lastInput.y, 0f);
 
-        // Normalize the facing direction if it's not zero
-        if (facingDir != Vector3.zero)
-            facingDir.Normalize();
-
-        // Calculate the interaction position based on the facing direction
-        Vector3 interactPos = transform.position + facingDir;
-
-        Debug.DrawLine(transform.position, interactPos, Color.red, 1f);
+        // Check for collider with "Interactable" tag
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(interactPos, 0.2f);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.CompareTag("Interactable"))
+            {
+                Debug.Log("NPC");
+                break;
+            }
+        }
     }
 }

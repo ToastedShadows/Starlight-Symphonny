@@ -845,9 +845,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  interactableLayer:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!212 &478919798
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1113,9 +1110,9 @@ GameObject:
   - component: {fileID: 1262582228}
   - component: {fileID: 1262582231}
   - component: {fileID: 1262582230}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Arthur
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
