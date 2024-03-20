@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -21,10 +20,15 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MoveCharacter(); // Handle movement in FixedUpdate for physics consistency
+        HandleMovement(); // Handle movement in FixedUpdate for physics consistency
     }
 
-    private void MoveCharacter()
+    public void Update()
+    {
+        HandleUpdate(); // Call HandleUpdate every frame from Update
+    }
+
+    public void HandleUpdate()
     {
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
@@ -38,11 +42,6 @@ public class PlayerController : MonoBehaviour
             lastInput = input; // Store the last non-zero input direction
             isMoving = true;
             animator.SetBool("isMoving", isMoving);
-
-            Vector2 movement = input.normalized * moveSpeed * Time.fixedDeltaTime;
-            Vector2 newPosition = body.position + movement;
-
-            body.MovePosition(newPosition);
         }
         else
         {
@@ -57,12 +56,19 @@ public class PlayerController : MonoBehaviour
                 animator.SetFloat("moveY", lastInput.y);
             }
         }
-    }
 
-    private void Update()
-    {
         if (Input.GetKeyDown(KeyCode.Z))
             Interact();
+    }
+
+    private void HandleMovement()
+    {
+        if (isMoving)
+        {
+            Vector2 movement = input.normalized * moveSpeed * Time.fixedDeltaTime;
+            Vector2 newPosition = body.position + movement;
+            body.MovePosition(newPosition);
+        }
     }
 
     private void Interact()
