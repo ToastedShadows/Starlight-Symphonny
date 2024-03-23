@@ -6,6 +6,7 @@ TagManager:
   tags:
   - send help
   - Interactable
+  - Button
   layers:
   - Default
   - TransparentFX

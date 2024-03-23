@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +7,7 @@ public class Healthbar : MonoBehaviour
 
     public float health = MAX_HEALTH;
 
-    private Image Healthbar
+    private Image healthBar; // Changed from Healthbar to healthBar
 
     // Start is called before the first frame update
     void Start()
