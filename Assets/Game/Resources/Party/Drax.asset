@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Drax
   description: 
-  frontSprite: {fileID: 0}
-  backSprite: {fileID: 0}
+  frontSprite: {fileID: 21300000, guid: 10306b00bfa3e4d84ba923899d1ea3b7, type: 2}
+  backSprite: {fileID: 21300000, guid: d1e6c65b3d40744309baf3a2f0e9744b, type: 3}
   classType1: 0
   classType2: 0
   maxHp: 0
