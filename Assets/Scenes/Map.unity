@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 174587724}
   - component: {fileID: 174587723}
   m_Layer: 0
-  m_Name: Button 2
+  m_Name: Button2
   m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -216,8 +216,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 1057929175}
-  requiredButtons: 1
-  buttonsPressed: 0
+  requiredButtons: 2
+  pressedButtons: []
 --- !u!61 &174587724
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -247,7 +247,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -2086,7 +2086,7 @@ GameObject:
   - component: {fileID: 1446897367}
   - component: {fileID: 1446897370}
   m_Layer: 0
-  m_Name: Button 1
+  m_Name: Button1
   m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2121,7 +2121,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -2218,7 +2218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   door: {fileID: 1057929175}
   requiredButtons: 2
-  buttonsPressed: 0
+  pressedButtons: []
 --- !u!1 &1484771360
 GameObject:
   m_ObjectHideFlags: 0

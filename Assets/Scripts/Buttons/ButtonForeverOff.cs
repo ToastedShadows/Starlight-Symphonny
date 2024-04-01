@@ -5,22 +5,35 @@ using UnityEngine;
 public class ButtonForeverOff : MonoBehaviour
 {
     public GameObject door;
-    public int requiredButtons = 2; // Number of buttons required to open the door
-    public int buttonsPressed = 0; // Counter for the number of buttons pressed
-    private bool doorOpened = false; // Flag to track if the door is opened
+    public static int requiredButtons = 2; // Number of buttons required to open the door
+    private static HashSet<GameObject> pressedButtons = new HashSet<GameObject>(); // HashSet to store pressed buttons
+    private static bool doorOpened = false; // Flag to track if the door is opened
 
-    private void OnCollisionEnter2D(Collision2D other)
+    // Function to handle button press
+    public void PressButton(GameObject button)
     {
-        if (!doorOpened && (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Button"))) // Check if the door is not opened yet and collided object is either a player or a button
+        if (!doorOpened && !pressedButtons.Contains(button)) // Check if the door is not opened yet and the button is not already pressed
         {
-            buttonsPressed++;
-            Debug.Log("Button Pressed! Total Buttons Pressed: " + buttonsPressed);
-            if (buttonsPressed >= requiredButtons)
+            pressedButtons.Add(button); // Add the button to the HashSet of pressed buttons
+            Debug.Log("Button Pressed! Total Buttons Pressed: " + pressedButtons.Count);
+            if (pressedButtons.Count >= requiredButtons)
             {
                 door.SetActive(false);
                 doorOpened = true; // Set the doorOpened flag to true
                 Debug.Log("Door Opened!");
             }
+        }
+        else
+        {
+            Debug.Log("Button already pressed or door already opened!"); // Inform that the button has already been pressed or the door is already opened
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player")) // Check if the player interacts with the button
+        {
+            PressButton(gameObject); // Call the PressButton method with the current button game object
         }
     }
 }
