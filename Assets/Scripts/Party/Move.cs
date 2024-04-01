@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Move
@@ -10,7 +8,6 @@ public class Move
     public Move(MoveBase pBase, int pp)
     {
         Base = pBase;
-        PP = pp;
+        PP = pp; // Fixed assignment
     }
 }
-

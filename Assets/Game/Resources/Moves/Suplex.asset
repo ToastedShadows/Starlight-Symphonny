@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5def97aba66852469eec47306e94a48, type: 3}
   m_Name: Suplex
   m_EditorClassIdentifier: 
-  moveName: 
-  description: 
+  moveName: Suplex
+  description: EL PRIMOOOOO
   type: 0
-  power: 0
-  accuracy: 0
-  pp: 0
+  power: 80
+  accuracy: 50
+  pp: 10

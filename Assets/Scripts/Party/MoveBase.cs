@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Move", menuName = "Characters/Create new move")]
 public class MoveBase : ScriptableObject
 {
-    [SerializeField] string moveName; // Add SerializeField attribute
+    [SerializeField] private string moveName; // Add SerializeField attribute
     [TextArea]
-    [SerializeField] string description; // Add SerializeField attribute
+    [SerializeField] private string description; // Add SerializeField attribute
 
-    [SerializeField] MoveType type;
-    [SerializeField] int power;
-    [SerializeField] int accuracy;
-    [SerializeField] int pp;
+    [SerializeField] private MoveType type;
+    [SerializeField] private int power;
+    [SerializeField] private int accuracy;
+    [SerializeField] private int pp;
 
     public string Name
     {
@@ -38,4 +36,10 @@ public class MoveBase : ScriptableObject
     {
         get { return pp; }
     }
+}
+
+public enum MoveType
+{
+    Melee,
+    Ranged
 }

@@ -8,7 +8,7 @@ public class PartyBase : ScriptableObject
 
     [SerializeField] private string description;
 
-    [SerializeField] private Sprite frontSprite; 
+    [SerializeField] private Sprite frontSprite;
     [SerializeField] private Sprite backSprite;
     [SerializeField] private ClassType classType1;
     [SerializeField] private ClassType classType2;
@@ -40,7 +40,7 @@ public class PartyBase : ScriptableObject
 }
 
 [System.Serializable]
-public class LearnableMove 
+public class LearnableMove
 {
     [SerializeField] private MoveBase moveBase;
     [SerializeField] private int level;

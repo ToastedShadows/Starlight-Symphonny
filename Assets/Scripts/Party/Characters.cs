@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Characters : MonoBehaviour
 {
@@ -6,11 +7,28 @@ public class Characters : MonoBehaviour
     int level;
     MoveType moveType; // Add this line
 
+    public int HP { get; set; }
+
+    
+    public List<Move> Moves { get; set; }
+
     public Characters(PartyBase pBase, int pLevel, MoveType pMoveType) // Modify constructor
     {
         _base = pBase;
         level = pLevel;
+        HP = _base.MaxHp;
+        
         moveType = pMoveType; // Initialize moveType
+
+        Moves = new List<Move>();
+        foreach (var move in _base.LearnableMoves)
+        {
+            if (move.Level <= level)
+                Moves.Add(new Move(move.MoveBase, move.MoveBase.PP)); // Fixed constructor
+
+            if (Moves.Count >= 4)
+                break;
+        }
     }
 
     public int MAttack => Mathf.FloorToInt(_base.MAttack * level / 100f) + 5;
@@ -26,10 +44,4 @@ public class Characters : MonoBehaviour
         get { return moveType; }
         set { moveType = value; }
     }
-}
-
-public enum MoveType
-{
-    Melee,
-    Ranged
 }
