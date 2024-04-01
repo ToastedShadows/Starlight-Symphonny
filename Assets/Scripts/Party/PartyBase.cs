@@ -1,9 +1,10 @@
 using UnityEngine;
+using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "Team", menuName = "Team/Create new members")]
+[CreateAssetMenu(fileName = "Team", menuName = "Characters/Create new members")]
 public class PartyBase : ScriptableObject
 {
-    [SerializeField] private new string name; // Using 'new' keyword to indicate intentional hiding
+    [SerializeField] private string characterName; // Renamed to avoid hiding the inherited member
 
     [SerializeField] private string description;
 
@@ -20,7 +21,9 @@ public class PartyBase : ScriptableObject
     [SerializeField] private int rDefense;
     [SerializeField] private int speed;
 
-    public string CharacterName => name; // Renamed property to avoid hiding the inherited member
+    [SerializeField] private List<LearnableMove> learnableMoves;
+
+    public string CharacterName => characterName; // Renamed property to avoid hiding the inherited member
     public string Description => description;
     public Sprite FrontSprite => frontSprite;
     public Sprite BackSprite => backSprite;
@@ -33,6 +36,17 @@ public class PartyBase : ScriptableObject
     public int MDefense => mDefense;
     public int RDefense => rDefense;
     public int Speed => speed;
+    public List<LearnableMove> LearnableMoves => learnableMoves; // Renamed property to avoid naming conflict
+}
+
+[System.Serializable]
+public class LearnableMove 
+{
+    [SerializeField] private MoveBase moveBase;
+    [SerializeField] private int level;
+
+    public MoveBase MoveBase => moveBase; // Renamed property to avoid naming conflict
+    public int Level => level;
 }
 
 public enum ClassType
