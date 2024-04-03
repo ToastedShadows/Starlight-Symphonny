@@ -1,26 +1,23 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Characters : MonoBehaviour
 {
-    PartyBase _base;
-    int level;
-    MoveType moveType; // Add this line
-
+    public PartyBase _base { get; set; }
+    public int level { get; set; }
+    public MoveType moveType { get; set; } // Added MoveType property
     public int HP { get; set; }
-
-    
     public List<Move> Moves { get; set; }
 
-    public Characters(PartyBase pBase, int pLevel, MoveType pMoveType) // Modify constructor
+    // Constructor without circular instantiation
+    public Characters(PartyBase pBase, int pLevel, MoveType pMoveType)
     {
         _base = pBase;
         level = pLevel;
-        HP = _base.MaxHp;
-        
-        moveType = pMoveType; // Initialize moveType
-
+        HP = MaxHp;
+        moveType = pMoveType;
         Moves = new List<Move>();
+
         foreach (var move in _base.LearnableMoves)
         {
             if (move.Level <= level)
@@ -38,10 +35,4 @@ public class Characters : MonoBehaviour
     public int MDefense => Mathf.FloorToInt(_base.MDefense * level / 100f) + 5;
     public int RDefense => Mathf.FloorToInt(_base.RDefense * level / 100f) + 5;
     public int Speed => Mathf.FloorToInt(_base.Speed * level / 100f) + 5;
-
-    public MoveType MoveType // Add this property
-    {
-        get { return moveType; }
-        set { moveType = value; }
-    }
 }

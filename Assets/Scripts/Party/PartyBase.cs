@@ -4,15 +4,12 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "Team", menuName = "Characters/Create new members")]
 public class PartyBase : ScriptableObject
 {
-    [SerializeField] private string characterName; // Renamed to avoid hiding the inherited member
-
+    [SerializeField] private string characterName;
     [SerializeField] private string description;
-
     [SerializeField] private Sprite frontSprite;
     [SerializeField] private Sprite backSprite;
     [SerializeField] private ClassType classType1;
     [SerializeField] private ClassType classType2;
-
     [SerializeField] private int maxHp;
     [SerializeField] private int maxMana;
     [SerializeField] private int mAttack;
@@ -20,10 +17,9 @@ public class PartyBase : ScriptableObject
     [SerializeField] private int mDefense;
     [SerializeField] private int rDefense;
     [SerializeField] private int speed;
-
     [SerializeField] private List<LearnableMove> learnableMoves;
 
-    public string CharacterName => characterName; // Renamed property to avoid hiding the inherited member
+    public string CharacterName => characterName;
     public string Description => description;
     public Sprite FrontSprite => frontSprite;
     public Sprite BackSprite => backSprite;
@@ -36,7 +32,11 @@ public class PartyBase : ScriptableObject
     public int MDefense => mDefense;
     public int RDefense => rDefense;
     public int Speed => speed;
-    public List<LearnableMove> LearnableMoves => learnableMoves; // Renamed property to avoid naming conflict
+    public int Level { get; set; }
+    public int CurrentHP { get; set; }
+    public int MaxHP { get; set; }
+
+    public List<LearnableMove> LearnableMoves => learnableMoves;
 }
 
 [System.Serializable]
@@ -45,7 +45,7 @@ public class LearnableMove
     [SerializeField] private MoveBase moveBase;
     [SerializeField] private int level;
 
-    public MoveBase MoveBase => moveBase; // Renamed property to avoid naming conflict
+    public MoveBase MoveBase => moveBase;
     public int Level => level;
 }
 
