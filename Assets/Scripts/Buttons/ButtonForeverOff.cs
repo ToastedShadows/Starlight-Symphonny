@@ -5,7 +5,7 @@ using UnityEngine;
 public class ButtonForeverOff : MonoBehaviour
 {
     public GameObject door;
-    public static int requiredButtons = 2; // Number of buttons required to open the door
+    public int requiredButtons = 2; // Number of buttons required to open the door
     private static HashSet<GameObject> pressedButtons = new HashSet<GameObject>(); // HashSet to store pressed buttons
     private static bool doorOpened = false; // Flag to track if the door is opened
 

@@ -295,6 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 1057929175}
+  requiredButtons: 2
 --- !u!61 &174587724
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3747,6 +3748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 1057929175}
+  requiredButtons: 2
 --- !u!1 &1482700989
 GameObject:
   m_ObjectHideFlags: 0
