@@ -53,6 +53,51 @@ public class BattleSystem : MonoBehaviour
         dialogBox.EnableMoveSelector(true);
     }
 
+    IEnumerator PerformPlayerMove()
+    {
+        state = BattleState.Busy;
+        var move = playerUnit.Characters.Moves[currentMove];
+
+        yield return dialogBox.TypeDialog($"{playerUnit.Characters._base.CharacterName} used {move.Base.Name}");
+
+        yield return new WaitForSeconds(1f);
+
+        bool isFainted = enemyUnit.Characters.TakeDamage(move, playerUnit.Characters);
+
+        enemyHud.UpdateHP();
+
+        if (isFainted)
+        {
+            yield return dialogBox.TypeDialog($"{enemyUnit.Characters._base.CharacterName} Fainted");
+        }
+        else
+        {
+            StartCoroutine(EnemyMove());
+        }
+    }
+
+    IEnumerator EnemyMove()
+    {
+        state = BattleState.EnemyMove;
+
+        var move = enemyUnit.Characters.GetRandomMove();
+        yield return dialogBox.TypeDialog($"{enemyUnit.Characters._base.CharacterName} used {move.Base.Name}");
+
+        yield return new WaitForSeconds(1f);
+
+        bool isFainted = playerUnit.Characters.TakeDamage(move, enemyUnit.Characters);
+        playerHud.UpdateHP();
+
+        if (isFainted)
+        {
+            yield return dialogBox.TypeDialog($"{playerUnit.Characters._base.CharacterName} Fainted");
+        }
+        else
+        {
+            PlayerAction();
+        }
+    }
+
     private void Update()
     {
         if (state == BattleState.PlayerAction)
@@ -126,10 +171,9 @@ public class BattleSystem : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Z))
         {
-            // Perform the selected move
-            // For example: playerUnit.Characters.Moves[currentMove].Base.Name
-
-            // After performing the move, you may want to transition to the next state
+            dialogBox.EnableMoveSelector(false);
+            dialogBox.EnableDialogText(true);
+            StartCoroutine(PerformPlayerMove());
         }
 
         dialogBox.UpdateMoveSelection(currentMove, playerUnit.Characters.Moves[currentMove]);

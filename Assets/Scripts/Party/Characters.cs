@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Characters : MonoBehaviour
 {
@@ -35,4 +35,27 @@ public class Characters : MonoBehaviour
     public int MDefense => Mathf.FloorToInt(_base.MDefense * level / 100f) + 5;
     public int RDefense => Mathf.FloorToInt(_base.RDefense * level / 100f) + 5;
     public int Speed => Mathf.FloorToInt(_base.Speed * level / 100f) + 5;
+
+    public bool TakeDamage(Move move, Characters attacker)
+    {
+        float modifiers = Random.Range(0.85f, 1f);
+        float a = (2 * attacker.level + 10) / 250f;
+        float d = a * move.Base.Power * ((float)attacker.MAttack / MDefense) + 2;
+        int damage = Mathf.FloorToInt(d * modifiers);
+
+        HP -= damage;
+        if (HP <= 0)
+        {
+            HP = 0;
+            return true;
+        }
+
+        return false;
+    }
+
+    public Move GetRandomMove()
+    {
+        int r = Random.Range(0, Moves.Count);
+        return Moves[r];
+    }
 }
