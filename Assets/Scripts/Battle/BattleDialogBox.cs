@@ -42,8 +42,9 @@ public class BattleDialogBox : MonoBehaviour
     public void EnableActionSelector(bool enabled)
     {
         actionSelector.SetActive(enabled);
-        EnableDialogText(!enabled); // Toggle dialogText visibility
+        dialogText.gameObject.SetActive(true); // Ensure dialogText is active
     }
+
 
     public void EnableMoveSelector(bool enabled)
     {

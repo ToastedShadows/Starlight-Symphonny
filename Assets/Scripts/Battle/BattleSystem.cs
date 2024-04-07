@@ -15,7 +15,7 @@ public class BattleSystem : MonoBehaviour
 
     BattleState state;
     int currentAction;
-    int currentMove;
+    int currentMove; // Declare currentMove here
 
     private void Start()
     {
@@ -95,7 +95,26 @@ public class BattleSystem : MonoBehaviour
 
     void HandleMoveSelection()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (currentMove < playerUnit.Characters.Moves.Count - 4)
+                currentMove += 4;
+            else
+                currentMove = currentMove % 4; // Wrap around to the first row if at the last
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (currentMove >= 4)
+                currentMove -= 4;
+            else
+            {
+                int lastRowStart = playerUnit.Characters.Moves.Count - (playerUnit.Characters.Moves.Count % 4);
+                if (lastRowStart == playerUnit.Characters.Moves.Count) // If the last row is full
+                    lastRowStart -= 4;
+                currentMove = Mathf.Min(lastRowStart + currentMove, playerUnit.Characters.Moves.Count - 1);
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             if (currentMove < playerUnit.Characters.Moves.Count - 1)
                 ++currentMove;
