@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class BattleHud : MonoBehaviour
 {
@@ -17,8 +18,8 @@ public class BattleHud : MonoBehaviour
         hpBar.SetHP((float)characters.HP / characters.MaxHp);
     }
 
-    public void UpdateHP()
+    public IEnumerator UpdateHP() // Changed return type
     {
-        hpBar.SetHP((float)_characters.HP / _characters.MaxHp); // Fixed reference to use _characters field
+        yield return StartCoroutine(hpBar.SetHPSmooth((float)_characters.HP / _characters.MaxHp)); // Fixed reference to use _characters field and added StartCoroutine
     }
 }

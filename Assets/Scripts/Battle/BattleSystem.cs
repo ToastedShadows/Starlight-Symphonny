@@ -64,7 +64,7 @@ public class BattleSystem : MonoBehaviour
 
         bool isFainted = enemyUnit.Characters.TakeDamage(move, playerUnit.Characters);
 
-        enemyHud.UpdateHP();
+        yield return StartCoroutine(enemyHud.UpdateHP()); // Added StartCoroutine
 
         if (isFainted)
         {
@@ -86,7 +86,7 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         bool isFainted = playerUnit.Characters.TakeDamage(move, enemyUnit.Characters);
-        playerHud.UpdateHP();
+        yield return StartCoroutine(playerHud.UpdateHP()); // Added StartCoroutine
 
         if (isFainted)
         {
@@ -179,3 +179,4 @@ public class BattleSystem : MonoBehaviour
         dialogBox.UpdateMoveSelection(currentMove, playerUnit.Characters.Moves[currentMove]);
     }
 }
+
