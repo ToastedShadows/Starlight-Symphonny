@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
 public class BattleDialogBox : MonoBehaviour
 {
     [SerializeField] Text dialogText;
@@ -38,18 +36,20 @@ public class BattleDialogBox : MonoBehaviour
 
     public void EnableDialogText(bool enabled)
     {
-        dialogText.enabled = enabled;
+        dialogText.gameObject.SetActive(enabled);
     }
 
     public void EnableActionSelector(bool enabled)
     {
         actionSelector.SetActive(enabled);
+        EnableDialogText(!enabled); // Toggle dialogText visibility
     }
 
     public void EnableMoveSelector(bool enabled)
     {
         moveSelector.SetActive(enabled);
         moveDetails.SetActive(enabled);
+        EnableDialogText(!enabled); // Toggle dialogText visibility
     }
 
     public void UpdateActionSelection(int selectedAction)
@@ -73,11 +73,11 @@ public class BattleDialogBox : MonoBehaviour
                 moveTexts[i].color = Color.black;
         }
 
-        ppText.text = $"PP {move.PP}/{move.Base.PP}"; // Use move.Base instead of move._base
-        typeText.text = move.Base.Type.ToString(); // Use move.Base instead of move._base
+        ppText.text = $"PP {move.PP}/{move.Base.PP}";
+        typeText.text = move.Base.Type.ToString();
     }
 
-    public void SetMoveNames(List<MoveBase> moves) // Change the parameter type to List<MoveBase>
+    public void SetMoveNames(List<MoveBase> moves)
     {
         for (int i = 0; i < moveTexts.Count; ++i)
         {

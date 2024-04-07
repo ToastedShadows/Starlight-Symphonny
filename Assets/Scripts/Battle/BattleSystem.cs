@@ -50,13 +50,12 @@ public class BattleSystem : MonoBehaviour
     {
         state = BattleState.PlayerMove;
         dialogBox.EnableActionSelector(false);
-        dialogBox.EnableDialogText(false);
         dialogBox.EnableMoveSelector(true);
     }
 
     private void Update()
     {
-        if (state == BattleState.PlayerAction || state == BattleState.PlayerMove)
+        if (state == BattleState.PlayerAction)
         {
             HandleActionSelection();
         }
@@ -85,12 +84,11 @@ public class BattleSystem : MonoBehaviour
         {
             if (currentAction == 0)
             {
-                // fight
                 PlayerMove();
             }
             else if (currentAction == 1)
             {
-                //run
+                // Run
             }
         }
     }
