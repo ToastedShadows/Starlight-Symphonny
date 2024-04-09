@@ -56,7 +56,10 @@ public class BattleSystem : MonoBehaviour
     IEnumerator PerformPlayerMove()
     {
         state = BattleState.Busy;
+
         var move = playerUnit.Characters.Moves[currentMove];
+
+        move.PP--;
 
         yield return dialogBox.TypeDialog($"{playerUnit.Characters._base.CharacterName} used {move.Base.Name}");
 
@@ -81,6 +84,9 @@ public class BattleSystem : MonoBehaviour
         state = BattleState.EnemyMove;
 
         var move = enemyUnit.Characters.GetRandomMove();
+
+        move.PP--;
+
         yield return dialogBox.TypeDialog($"{enemyUnit.Characters._base.CharacterName} used {move.Base.Name}");
 
         yield return new WaitForSeconds(1f);

@@ -21,9 +21,9 @@ MonoBehaviour:
   maxHp: 70
   maxMana: 0
   mAttack: 100
-  rAttack: 0
-  mDefense: 60
-  rDefense: 60
+  rAttack: 30
+  mDefense: 100
+  rDefense: 30
   speed: 10
   learnableMoves:
   - moveBase: {fileID: 11400000, guid: 66f4061c949571844af0dea0856b50f6, type: 2}

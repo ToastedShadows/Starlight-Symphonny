@@ -15,6 +15,6 @@ MonoBehaviour:
   moveName: Axe Throw
   description: Throw big axe
   type: 1
-  power: 90
+  power: 60
   accuracy: 80
   pp: 1

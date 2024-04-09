@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Characters : MonoBehaviour
 {
@@ -38,9 +38,12 @@ public class Characters : MonoBehaviour
 
     public bool TakeDamage(Move move, Characters attacker)
     {
+        float attack = (move.Base.IsSpecial) ? attacker.RAttack : attacker.MAttack; // Corrected property access
+        float defense = (move.Base.IsSpecial) ? RDefense : MDefense; // Corrected property access
+
         float modifiers = Random.Range(0.85f, 1f);
         float a = (2 * attacker.level + 10) / 250f;
-        float d = a * move.Base.Power * ((float)attacker.MAttack / MDefense) + 2;
+        float d = a * move.Base.Power * ((float)attack / defense) + 2;
         int damage = Mathf.FloorToInt(d * modifiers);
 
         HP -= damage;

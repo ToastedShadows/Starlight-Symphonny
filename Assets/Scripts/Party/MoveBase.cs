@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "Move", menuName = "Characters/Create new move")]
 public class MoveBase : ScriptableObject
@@ -19,6 +18,8 @@ public class MoveBase : ScriptableObject
     public int Power => power;
     public int Accuracy => accuracy;
     public int PP => pp;
+
+    public bool IsSpecial => type == MoveType.Ranged; // Simplified IsSpecial property
 }
 
 public enum MoveType
