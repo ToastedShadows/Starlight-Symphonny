@@ -7,14 +7,15 @@ public class BattleUnit : MonoBehaviour
     [SerializeField] int level;
     [SerializeField] bool isPlayerUnit;
 
-    public Characters Characters { get; set; }
+    public Characters Characters { get; private set; }
 
     public void Setup()
     {
-        Characters = new Characters(_base, level, MoveType.Melee); // Use an existing MoveType value
+        Characters = gameObject.AddComponent<Characters>(); // Add Characters component to the GameObject
+        Characters.Initialize(_base, level, MoveType.Melee); // Initialize the Characters instance
         if (isPlayerUnit)
-            GetComponent<Image>().sprite = Characters._base.BackSprite; // Fixed: Set front sprite for player unit
+            GetComponent<Image>().sprite = _base.BackSprite; // Set front sprite for player unit
         else
-            GetComponent<Image>().sprite = Characters._base.FrontSprite; // Fixed: Set back sprite for enemy unit
+            GetComponent<Image>().sprite = _base.FrontSprite; // Set back sprite for enemy unit
     }
 }

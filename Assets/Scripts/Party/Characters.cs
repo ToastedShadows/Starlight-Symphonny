@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class Characters : MonoBehaviour
 {
-    public PartyBase _base { get; set; }
-    public int level { get; set; }
-    public MoveType moveType { get; set; } // Added MoveType property
-    public int HP { get; set; }
-    public List<Move> Moves { get; set; }
+    public PartyBase _base { get; private set; }
+    public int level { get; private set; }
+    public MoveType moveType { get; private set; }
+    public int HP { get; private set; }
+    public List<Move> Moves { get; private set; }
 
-    // Constructor without circular instantiation
-    public Characters(PartyBase pBase, int pLevel, MoveType pMoveType)
+    // Method to initialize the Characters instance
+    public void Initialize(PartyBase pBase, int pLevel, MoveType pMoveType)
     {
         _base = pBase;
         level = pLevel;
@@ -21,7 +21,7 @@ public class Characters : MonoBehaviour
         foreach (var move in _base.LearnableMoves)
         {
             if (move.Level <= level)
-                Moves.Add(new Move(move.MoveBase, move.MoveBase.PP)); // Fixed constructor
+                Moves.Add(new Move(move.MoveBase, move.MoveBase.PP));
 
             if (Moves.Count >= 4)
                 break;

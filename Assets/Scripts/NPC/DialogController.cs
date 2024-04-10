@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum GameState {FreeRoam, Dialog, Battle}
 
-public class GameController : MonoBehaviour
+public class DialogController : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
     //serialzefield adds variable visible in unity inspector
