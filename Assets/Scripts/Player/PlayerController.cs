@@ -103,4 +103,16 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    void OnCollisionEnter2D (Collision2D other)
+    {
+        string tag = other.collider.tag;
+
+        if(tag.Equals ("Coin")) {
+            //add coins
+            Debug.Log ("hit coin");
+
+            Destroy (other.gameObject);
+        }
+    }
 }
