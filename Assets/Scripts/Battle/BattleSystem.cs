@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
-public enum BattleState { Start, PlayerAction, PlayerMove, EnemyMove, Busy }
+using GameEnums;
 
 public class BattleSystem : MonoBehaviour
 {
@@ -18,7 +17,7 @@ public class BattleSystem : MonoBehaviour
 
     BattleState state;
     int currentAction;
-    int currentMove; // Declare currentMove here
+    int currentMove;
 
     public void StartBattle()
     {
@@ -70,14 +69,13 @@ public class BattleSystem : MonoBehaviour
 
         bool isFainted = enemyUnit.Characters.TakeDamage(move, playerUnit.Characters);
 
-        yield return StartCoroutine(enemyHud.UpdateHP()); // Added StartCoroutine
+        yield return StartCoroutine(enemyHud.UpdateHP());
 
         if (isFainted)
         {
             yield return dialogBox.TypeDialog($"{enemyUnit.Characters._base.CharacterName} Fainted");
-
             yield return new WaitForSeconds(2f);
-            OnBattleOver(true);
+            OnBattleOver?.Invoke(true);
         }
         else
         {
@@ -98,13 +96,13 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         bool isFainted = playerUnit.Characters.TakeDamage(move, enemyUnit.Characters);
-        yield return StartCoroutine(playerHud.UpdateHP()); // Added StartCoroutine
+        yield return StartCoroutine(playerHud.UpdateHP());
 
         if (isFainted)
         {
             yield return dialogBox.TypeDialog($"{playerUnit.Characters._base.CharacterName} Fainted");
             yield return new WaitForSeconds(2f);
-            OnBattleOver(false);
+            OnBattleOver?.Invoke(false);
         }
         else
         {
@@ -159,7 +157,7 @@ public class BattleSystem : MonoBehaviour
             if (currentMove < playerUnit.Characters.Moves.Count - 4)
                 currentMove += 4;
             else
-                currentMove = currentMove % 4; // Wrap around to the first row if at the last
+                currentMove = currentMove % 4;
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -168,7 +166,7 @@ public class BattleSystem : MonoBehaviour
             else
             {
                 int lastRowStart = playerUnit.Characters.Moves.Count - (playerUnit.Characters.Moves.Count % 4);
-                if (lastRowStart == playerUnit.Characters.Moves.Count) // If the last row is full
+                if (lastRowStart == playerUnit.Characters.Moves.Count)
                     lastRowStart -= 4;
                 currentMove = Mathf.Min(lastRowStart + currentMove, playerUnit.Characters.Moves.Count - 1);
             }

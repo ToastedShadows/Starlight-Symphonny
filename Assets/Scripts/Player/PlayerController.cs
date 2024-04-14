@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 lastInput;
     private Rigidbody2D body;
     private bool isMoving;
-    private bool canMove = true; // Flag to indicate whether the player can move
+    private bool canMove = true;
 
     private Animator animator;
 
@@ -24,13 +24,13 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (canMove) // Only handle movement if the player can move
+        if (canMove)
             HandleMovement();
     }
 
     private void Update()
     {
-        if (canMove) // Only handle input if the player can move
+        if (canMove)
             HandleUpdate();
     }
 
@@ -95,24 +95,22 @@ public class PlayerController : MonoBehaviour
     
         if (encounterCollider != null)
         {
-            // Check if the player is already in an encounter
             if (canMove)
             {
-                canMove = false; // Prevent further movement
-                OnEncountered?.Invoke(); // Trigger the encounter
+                canMove = false;
+                OnEncountered?.Invoke();
             }
         }
     }
 
-    void OnCollisionEnter2D (Collision2D other)
+    void OnCollisionEnter2D(Collision2D other)
     {
         string tag = other.collider.tag;
 
-        if(tag.Equals ("Coin")) {
-            //add coins
-            Debug.Log ("hit coin");
-
-            Destroy (other.gameObject);
+        if(tag.Equals("Coin"))
+        {
+            Debug.Log("hit coin");
+            Destroy(other.gameObject);
         }
     }
 }

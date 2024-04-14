@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using GameEnums;
 
 public class Characters : MonoBehaviour
 {
@@ -8,15 +9,40 @@ public class Characters : MonoBehaviour
     public MoveType moveType { get; private set; }
     public int HP { get; private set; }
     public List<Move> Moves { get; private set; }
+    public Dictionary<Stat, int> Stats { get; private set; }
+    public Dictionary<Stat, int> StatsBoosts { get; private set; }
 
-    // Method to initialize the Characters instance
     public void Initialize(PartyBase pBase, int pLevel, MoveType pMoveType)
     {
         _base = pBase;
         level = pLevel;
-        HP = MaxHp;
         moveType = pMoveType;
         Moves = new List<Move>();
+
+        // Initialize Stats dictionary
+        Stats = new Dictionary<Stat, int>
+        {
+            { Stat.MAttack, 0 },
+            { Stat.RAttack, 0 },
+            { Stat.MDefense, 0 },
+            { Stat.RDefense, 0 },
+            { Stat.MaxHp, 0 },
+            { Stat.MaxMana, 0 }
+        };
+
+        StatsBoosts = new Dictionary<Stat, int>
+        {
+            { Stat.MAttack, 0 },
+            { Stat.RAttack, 0 },
+            { Stat.MDefense, 0 },
+            { Stat.RDefense, 0 },
+            { Stat.MaxHp, 0 },
+            { Stat.MaxMana, 0 }
+        };
+
+        CalculateStats();
+
+        HP = Stats[Stat.MaxHp];
 
         foreach (var move in _base.LearnableMoves)
         {
@@ -28,18 +54,55 @@ public class Characters : MonoBehaviour
         }
     }
 
-    public int MAttack => Mathf.FloorToInt(_base.MAttack * level / 100f) + 5;
-    public int RAttack => Mathf.FloorToInt(_base.RAttack * level / 100f) + 5;
-    public int MaxHp => Mathf.FloorToInt(_base.MaxHp * level / 100f) + 10;
-    public int MaxMana => Mathf.FloorToInt(_base.MaxMana * level / 100f) + 10;
-    public int MDefense => Mathf.FloorToInt(_base.MDefense * level / 100f) + 5;
-    public int RDefense => Mathf.FloorToInt(_base.RDefense * level / 100f) + 5;
-    public int Speed => Mathf.FloorToInt(_base.Speed * level / 100f) + 5;
+    void CalculateStats()
+    {
+        Stats[Stat.MAttack] = Mathf.FloorToInt(_base.MAttack * level / 100f) + 5;
+        Stats[Stat.RAttack] = Mathf.FloorToInt(_base.RAttack * level / 100f) + 5;
+        Stats[Stat.MDefense] = Mathf.FloorToInt(_base.MDefense * level / 100f) + 5;
+        Stats[Stat.RDefense] = Mathf.FloorToInt(_base.RDefense * level / 100f) + 5;
+        Stats[Stat.MaxHp] = Mathf.FloorToInt(_base.MaxHp * level / 100f) + 5;
+        Stats[Stat.MaxMana] = Mathf.FloorToInt(_base.MaxMana * level / 100f) + 5;
+    }
+
+    int GetStat(Stat stat)
+    {
+        int statVal = Stats[stat];
+
+        int boost = StatsBoosts[stat];
+        var boostValues = new float[] { 1f, 1.5f, 2f, 2.5f, 3f, 3.5f, 4f };
+
+        if (boost >= 0)
+            statVal = Mathf.FloorToInt(statVal * boostValues[boost]);
+        else
+            statVal = Mathf.FloorToInt(statVal / boostValues[-boost]);
+
+        return statVal;
+    }
+
+    public void ApplyBoosts(List<StatsBoosts> statBoosts)
+    {
+        foreach (var statBoost in statBoosts)
+        {
+            var stat = statBoost.stat;
+            var boost = statBoost.boost;
+
+            StatsBoosts[stat] = Mathf.Clamp(StatsBoosts[stat] + boost, -6, 6);
+
+            Debug.Log($"{stat} has been boosted to {StatsBoosts[stat]}");
+        }
+    }
+
+    public int MAttack => GetStat(Stat.MAttack);
+    public int RAttack => GetStat(Stat.RAttack);
+    public int MaxHp => GetStat(Stat.MaxHp);
+    public int MaxMana => GetStat(Stat.MaxMana);
+    public int MDefense => GetStat(Stat.MDefense);
+    public int RDefense => GetStat(Stat.RDefense);
 
     public bool TakeDamage(Move move, Characters attacker)
     {
-        float attack = (move.Base.IsSpecial) ? attacker.RAttack : attacker.MAttack; // Corrected property access
-        float defense = (move.Base.IsSpecial) ? RDefense : MDefense; // Corrected property access
+        float attack = (move.Base.Category == MoveCategory.Ranged) ? attacker.RAttack : attacker.MAttack;
+        float defense = (move.Base.Category == MoveCategory.Ranged) ? RDefense : MDefense;
 
         float modifiers = Random.Range(0.85f, 1f);
         float a = (2 * attacker.level + 10) / 250f;
@@ -61,4 +124,11 @@ public class Characters : MonoBehaviour
         int r = Random.Range(0, Moves.Count);
         return Moves[r];
     }
+}
+
+[System.Serializable]
+public class StatsBoosts
+{
+    public Stat stat;
+    public int boost;
 }

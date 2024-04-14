@@ -34,7 +34,6 @@ public class PartyBase : ScriptableObject
     public int Speed => speed;
     public int Level { get; set; }
     public int CurrentHP { get; set; }
-    public int MaxHP { get; set; }
 
     public List<LearnableMove> LearnableMoves => learnableMoves;
 }

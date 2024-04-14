@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5def97aba66852469eec47306e94a48, type: 3}
-  m_Name: Axe Throw
+  m_Name: Growl
   m_EditorClassIdentifier: 
-  moveName: Axe Throw
-  description: Throw big axe
-  type: 1
-  power: 60
-  accuracy: 80
-  pp: 1
-  category: 1
+  moveName: Growl
+  description: Grrrrrrr
+  type: 0
+  power: 0
+  accuracy: 0
+  pp: 0
+  category: 2
   effects:
-    boosts: []
+    boosts:
+    - stat: 0
+      boost: -4
   target: 0
