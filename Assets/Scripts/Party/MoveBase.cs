@@ -26,17 +26,33 @@ public class MoveBase : ScriptableObject
     public MoveEffects Effects => effects;
     public MoveTarget Target => target;
 
+    public string TypeAndCategory
+    {
+        get
+        {
+            string typeText = Type.ToString();
+            string categoryText = Category.ToString();
+            
+            // Convert the first letter of type and category to uppercase
+            typeText = char.ToUpper(typeText[0]) + typeText.Substring(1);
+            categoryText = char.ToUpper(categoryText[0]) + categoryText.Substring(1);
+            
+            // Combine type and category with " - "
+            return $"{typeText} - {categoryText}";
+        }
+    }
+
     [System.Serializable]
     public class MoveEffects
     {
-        [SerializeField] private List<StatsBoosts> boosts;
+        [SerializeField] private List<StatsBoost> boosts;
 
-        public List<StatsBoosts> Boosts => boosts;
+        public List<StatsBoost> Boosts => boosts;
     }
 }
 
 [System.Serializable]
-public class StatsBoosts
+public class StatsBoost
 {
     public Stat stat;
     public int boost;

@@ -79,7 +79,7 @@ public class Characters : MonoBehaviour
         return statVal;
     }
 
-    public void ApplyBoosts(List<StatsBoosts> statBoosts)
+    public void ApplyBoosts(List<StatsBoost> statBoosts)
     {
         foreach (var statBoost in statBoosts)
         {
@@ -101,6 +101,13 @@ public class Characters : MonoBehaviour
 
     public bool TakeDamage(Move move, Characters attacker)
     {
+        if (move.Base.Category == MoveCategory.Status)
+        {
+            // Handle status moves (e.g., Growl)
+            // For now, we won't apply any damage or effects
+            return false;
+        }
+        
         float attack = (move.Base.Category == MoveCategory.Ranged) ? attacker.RAttack : attacker.MAttack;
         float defense = (move.Base.Category == MoveCategory.Ranged) ? RDefense : MDefense;
 
@@ -124,11 +131,4 @@ public class Characters : MonoBehaviour
         int r = Random.Range(0, Moves.Count);
         return Moves[r];
     }
-}
-
-[System.Serializable]
-public class StatsBoosts
-{
-    public Stat stat;
-    public int boost;
 }
