@@ -17,7 +17,7 @@ public class DialogManager : MonoBehaviour
     private Dialog dialog;
     private int currentLine = 0;
     private bool isTyping;
-    private bool dialogActive = false; // Track whether a dialog is active
+    private bool dialogActive = false;
 
     private void Awake()
     {
@@ -26,12 +26,12 @@ public class DialogManager : MonoBehaviour
 
     public void ShowDialog(Dialog dialog)
     {
-        if (!dialogActive) // Check if a dialog is not already active
+        if (!dialogActive)
         {
             OnShowDialog?.Invoke();
             this.dialog = dialog;
             dialogBox.SetActive(true);
-            dialogActive = true; // Set dialog active
+            dialogActive = true;
             StartCoroutine(TypeDialog(dialog.Lines[0]));
         }
     }
@@ -49,7 +49,7 @@ public class DialogManager : MonoBehaviour
             {
                 dialogBox.SetActive(false);
                 currentLine = 0;
-                dialogActive = false; // Reset dialog active status
+                dialogActive = false;
                 OnHideDialog?.Invoke();
             }
         }
@@ -67,7 +67,6 @@ public class DialogManager : MonoBehaviour
         isTyping = false;
     }
 
-    // Method to check if a dialog is active
     public bool IsDialogActive()
     {
         return dialogActive;

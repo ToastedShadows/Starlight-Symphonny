@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     private Vector2 input;
     private Vector2 lastInput;
     private Rigidbody2D body;
-    private bool isMoving;
     private bool canMove = true;
 
     private Animator animator;
@@ -24,13 +23,13 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (canMove)
+        if (canMove && !DialogManager.Instance.IsDialogActive())
             HandleMovement();
     }
 
     private void Update()
     {
-        if (canMove)
+        if (canMove && !DialogManager.Instance.IsDialogActive())
             HandleUpdate();
     }
 
@@ -39,26 +38,19 @@ public class PlayerController : MonoBehaviour
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
 
-        animator.SetFloat("moveX", input.x);
-        animator.SetFloat("moveY", input.y);
-
         if (input != Vector2.zero)
         {
             lastInput = input;
-            isMoving = true;
-            animator.SetBool("isMoving", isMoving);
+            animator.SetFloat("moveX", input.x);
+            animator.SetFloat("moveY", input.y);
         }
         else
         {
-            isMoving = false;
-            animator.SetBool("isMoving", isMoving);
-
-            if (lastInput != Vector2.zero && lastInput.y != -1)
-            {
-                animator.SetFloat("moveX", lastInput.x);
-                animator.SetFloat("moveY", lastInput.y);
-            }
+            animator.SetFloat("moveX", lastInput.x);
+            animator.SetFloat("moveY", lastInput.y);
         }
+
+        animator.SetBool("isMoving", input != Vector2.zero);
 
         if (Input.GetKeyDown(KeyCode.Z))
             Interact();
@@ -68,7 +60,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (isMoving)
+        if (input != Vector2.zero)
         {
             Vector2 movement = input.normalized * moveSpeed * Time.fixedDeltaTime;
             Vector2 newPosition = body.position + movement;

@@ -9,5 +9,6 @@ public class Dialog
     public List<string> Lines
     {
         get { return lines; }
+        set { lines = value; } // Add a setter to allow setting the Lines list
     }
 }
