@@ -11,4 +11,9 @@ public class DialogueAction : CutsceneAction
         get { return dialog; }
         set { dialog = value; }
     }
+
+    //public override IEnumerator Play()
+    //{
+        //yield return DialogManager.Instance.ShowDialog(dialog);
+   // }
 }

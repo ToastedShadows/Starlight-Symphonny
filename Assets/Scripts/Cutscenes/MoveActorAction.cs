@@ -5,9 +5,14 @@ using UnityEngine;
 [System.Serializable]
 public class MoveActorAction : CutsceneAction
 {
-    [SerializeField] 
-    private Character character;
-    
-    [SerializeField] 
-    private List<Vector2> movePatterns;
+    [SerializeField] Character character;
+    [SerializeField] List<Vector2> movePattterns;
+
+    //public override IEnumerator Play()
+    //{
+        //foreach (var moveVec in movePattterns)
+        //{
+            //yield return character.Move(moveVec);
+        //}
+    //}
 }
