@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DialogManager : MonoBehaviour
 {
+    [SerializeField] ChoiceBox choiceBox;
     [SerializeField] GameObject dialogBox;
     [SerializeField] Text dialogText;
     [SerializeField] int letterPerSecond;
@@ -24,7 +26,7 @@ public class DialogManager : MonoBehaviour
         Instance = this;
     }
 
-    public void ShowDialog(Dialog dialog)
+    public void ShowDialog(Dialog dialog, List<string> choices = null, Action<int> onChoiceSelected = null)
     {
         if (!dialogActive)
         {
@@ -34,6 +36,19 @@ public class DialogManager : MonoBehaviour
             dialogActive = true;
             StartCoroutine(TypeDialog(dialog.Lines[0]));
         }
+
+        if (choices != null && choices.Count > 1)
+        {
+            choiceBox.ShowChoices(choices, onChoiceSelected);
+        }
+    }
+
+    public IEnumerator ShowDialogText(string text)
+    {
+        dialogBox.SetActive(true);
+        dialogText.text = text;
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Z));
+        dialogBox.SetActive(false);
     }
 
     public void HandleUpdate()
