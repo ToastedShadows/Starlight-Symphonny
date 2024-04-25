@@ -558,6 +558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1a634bc254425e4b899336b6b603954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 478919797}
   choiceBox: {fileID: 1388455891}
   dialogBox: {fileID: 934482015}
   dialogText: {fileID: 526149423}
@@ -5860,6 +5861,7 @@ GameObject:
   - component: {fileID: 836027073}
   - component: {fileID: 836027072}
   - component: {fileID: 836027071}
+  - component: {fileID: 836027075}
   m_Layer: 0
   m_Name: Challenger
   m_TagString: Interactable
@@ -6006,6 +6008,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &836027075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 836027069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 210e461f4a31ff147b621c519ec8708e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog:
+    lines:
+    - HEY
 --- !u!1 &855646911
 GameObject:
   m_ObjectHideFlags: 0
@@ -8967,7 +8984,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialog:
     lines:
-    - 
     - Hi, how's it going
     - '*hits the griddy'
     - bye
