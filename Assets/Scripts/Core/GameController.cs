@@ -8,7 +8,13 @@ public class GameController : MonoBehaviour
     [SerializeField] BattleSystem battleSystem; 
     [SerializeField] Camera worldCamera;
 
+    MenuController menuController;
     PlayerState state;
+
+    private void Awake()
+    {
+        menuController = GetComponent<MenuController>();
+    }
 
     private void Start()
     {
@@ -38,6 +44,11 @@ public class GameController : MonoBehaviour
         if (state == PlayerState.FreeRoam)
         {
             playerController.HandleUpdate();
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                Debug.Log("Player pressed Enter key");
+                menuController.OpenMenu();
+            }
         }
         else if (state == PlayerState.Battle)
         {
@@ -45,3 +56,4 @@ public class GameController : MonoBehaviour
         }
     }
 }
+//ooo
