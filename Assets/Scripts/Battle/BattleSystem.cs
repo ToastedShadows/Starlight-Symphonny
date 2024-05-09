@@ -31,7 +31,7 @@ public class BattleSystem : MonoBehaviour
         playerHud.SetData(playerUnit.Characters);
         enemyHud.SetData(enemyUnit.Characters);
 
-        List<MoveBase> playerMoves = playerUnit.Characters.Moves.Select(move => move.Base).ToList();
+        List<string> playerMoves = playerUnit.Characters.Moves.Select(move => move.Base.Name).ToList();
 
         dialogBox.SetMoveNames(playerMoves);
 
@@ -126,13 +126,11 @@ public class BattleSystem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (currentAction < 1)
-                ++currentAction;
+            currentAction = (currentAction + 1) % 4; // Assuming you have 4 actions (Fight, Act, Item, Run)
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            if (currentAction > 0)
-                --currentAction;
+            currentAction = (currentAction + 3) % 4; // Assuming you have 4 actions (Fight, Act, Item, Run)
         }
 
         dialogBox.UpdateActionSelection(currentAction);
@@ -145,7 +143,15 @@ public class BattleSystem : MonoBehaviour
             }
             else if (currentAction == 1)
             {
-                // Run
+                // Handle "Act" action
+            }
+            else if (currentAction == 2)
+            {
+                // Handle "Item" action
+            }
+            else if (currentAction == 3)
+            {
+                // Handle "Run" action
             }
         }
     }
@@ -154,29 +160,10 @@ public class BattleSystem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (currentMove < playerUnit.Characters.Moves.Count - 4)
-                currentMove += 4;
-            else
-                currentMove = currentMove % 4;
-        }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            if (currentMove >= 4)
-                currentMove -= 4;
-            else
-            {
-                int lastRowStart = playerUnit.Characters.Moves.Count - (playerUnit.Characters.Moves.Count % 4);
-                if (lastRowStart == playerUnit.Characters.Moves.Count)
-                    lastRowStart -= 4;
-                currentMove = Mathf.Min(lastRowStart + currentMove, playerUnit.Characters.Moves.Count - 1);
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
             if (currentMove < playerUnit.Characters.Moves.Count - 1)
                 ++currentMove;
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             if (currentMove > 0)
                 --currentMove;
@@ -188,6 +175,6 @@ public class BattleSystem : MonoBehaviour
             StartCoroutine(PerformPlayerMove());
         }
 
-        dialogBox.UpdateMoveSelection(currentMove, playerUnit.Characters.Moves[currentMove]);
+        dialogBox.UpdateMoveSelection(currentMove, playerUnit.Characters.Moves[currentMove].Base.Name);
     }
 }

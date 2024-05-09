@@ -42,15 +42,14 @@ public class BattleDialogBox : MonoBehaviour
     public void EnableActionSelector(bool enabled)
     {
         actionSelector.SetActive(enabled);
-        dialogText.gameObject.SetActive(true); // Ensure dialogText is active
+        dialogText.gameObject.SetActive(true); 
     }
-
 
     public void EnableMoveSelector(bool enabled)
     {
         moveSelector.SetActive(enabled);
         moveDetails.SetActive(enabled);
-        EnableDialogText(!enabled); // Toggle dialogText visibility
+        EnableDialogText(!enabled); 
     }
 
     public void UpdateActionSelection(int selectedAction)
@@ -64,7 +63,7 @@ public class BattleDialogBox : MonoBehaviour
         }
     }
 
-    public void UpdateMoveSelection(int selectedMove, Move move)
+    public void UpdateMoveSelection(int selectedMove, string moveName)
     {
         for (int i = 0; i < moveTexts.Count; ++i)
         {
@@ -74,16 +73,17 @@ public class BattleDialogBox : MonoBehaviour
                 moveTexts[i].color = Color.black;
         }
 
-        ppText.text = $"PP {move.PP}/{move.Base.PP}";
-        typeText.text = move.Base.Type.ToString();
+        // Assuming moveName is a string.
+        ppText.text = $"PP: {moveName}"; 
+        typeText.text = "Type: "; // Assuming type is a string
     }
 
-    public void SetMoveNames(List<MoveBase> moves)
+    public void SetMoveNames(List<string> moves)
     {
         for (int i = 0; i < moveTexts.Count; ++i)
         {
             if (i < moves.Count)
-                moveTexts[i].text = moves[i].Name;
+                moveTexts[i].text = moves[i];
             else
                 moveTexts[i].text = "-";
         }
