@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public enum PlayerState { FreeRoam, Battle }
+public enum PlayerState { FreeRoam, Battle, Menu }
 
 public class GameController : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
-    [SerializeField] BattleSystem battleSystem; 
+    [SerializeField] BattleSystem battleSystem;
     [SerializeField] Camera worldCamera;
 
     MenuController menuController;
@@ -48,12 +49,23 @@ public class GameController : MonoBehaviour
             {
                 Debug.Log("Player pressed Enter key");
                 menuController.OpenMenu();
+                state = PlayerState.Menu;
+                playerController.SetCanMove(false);
             }
         }
         else if (state == PlayerState.Battle)
         {
             battleSystem.HandleUpdate();
         }
+        else if (state == PlayerState.Menu)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                Debug.Log("Player closed the menu");
+                menuController.CloseMenu();
+                state = PlayerState.FreeRoam;
+                playerController.SetCanMove(true);
+            }
+        }
     }
 }
-//ooo

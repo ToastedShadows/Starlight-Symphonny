@@ -1,13 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuController : MonoBehaviour
 {
-    [SerializeField] GameObject menu;
+    public GameObject menu; // Reference to the menu UI
+
     public void OpenMenu()
     {
         menu.SetActive(true);
     }
 
+    public void CloseMenu()
+    {
+        menu.SetActive(false);
+    }
+
+    public bool IsMenuOpen()
+    {
+        return menu.activeSelf;
+    }
 }

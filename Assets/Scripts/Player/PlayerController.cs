@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
     private void CheckForEncounters()
     {
         Collider2D encounterCollider = Physics2D.OverlapCircle(transform.position, 0.2f, encounterLayer);
-    
+
         if (encounterCollider != null)
         {
             if (canMove)
@@ -95,11 +95,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void SetCanMove(bool value)
+    {
+        canMove = value;
+    }
+
     void OnCollisionEnter2D(Collision2D other)
     {
         string tag = other.collider.tag;
 
-        if(tag.Equals("Coin"))
+        if (tag.Equals("Coin"))
         {
             Debug.Log("hit coin");
             Destroy(other.gameObject);
