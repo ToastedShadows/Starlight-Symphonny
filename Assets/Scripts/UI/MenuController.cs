@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; // Required for scene management
 using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
@@ -66,13 +67,13 @@ public class MenuController : MonoBehaviour
         {
             if (i == selectedOption)
             {
-                menuOptions[i].color = highlightedColor;
-                Debug.Log($"Setting option {i} to highlighted color {highlightedColor}");
+                Color colorWithAlpha = highlightedColor;
+                colorWithAlpha.a = 1; // Ensure alpha is set to 1 (full opacity)
+                menuOptions[i].color = colorWithAlpha;
             }
             else
             {
                 menuOptions[i].color = normalColor;
-                Debug.Log($"Setting option {i} to normal color {normalColor}");
             }
         }
     }
@@ -91,8 +92,21 @@ public class MenuController : MonoBehaviour
                 // Save game logic here
                 break;
             case 2:
-                Debug.Log("Load selected");
-                // Load game logic here
+                Debug.Log("Party selected");
+                // Party logic here
+                break;
+            case 3:
+                Debug.Log("Main Menu selected");
+                // Load main menu scene
+                SceneManager.LoadScene(0); // Assuming your main menu scene is indexed at 0
+                break;
+            case 4:
+                Debug.Log("Quit selected");
+                // Quit application
+                Application.Quit();
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false; // Stop play mode in the editor
+#endif
                 break;
             default:
                 Debug.LogWarning("Invalid menu option selected");
