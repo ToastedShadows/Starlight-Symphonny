@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public enum PlayerState { FreeRoam, Battle, Menu }
 
@@ -59,7 +58,8 @@ public class GameController : MonoBehaviour
         }
         else if (state == PlayerState.Menu)
         {
-            if (Input.GetKeyDown(KeyCode.Return))
+            menuController.HandleUpdate();
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Debug.Log("Player closed the menu");
                 menuController.CloseMenu();
