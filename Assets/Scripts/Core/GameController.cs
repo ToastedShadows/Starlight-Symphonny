@@ -1,12 +1,13 @@
 using UnityEngine;
 
-public enum PlayerState { FreeRoam, Battle, Menu }
+public enum PlayerState { FreeRoam, Battle, Menu, Bag }
 
 public class GameController : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
     [SerializeField] BattleSystem battleSystem;
     [SerializeField] Camera worldCamera;
+    [SerializeField] InventoryUI inventoryUI;
 
     MenuController menuController;
     PlayerState state;
@@ -29,6 +30,15 @@ public class GameController : MonoBehaviour
         worldCamera.gameObject.SetActive(false);
 
         battleSystem.StartBattle();
+    }
+
+    void OnMenuSelected(int selectedItem)
+    {
+        if (selectedItem == 0)
+        {
+            inventoryUI.gameObject.SetActive(true);
+            state = PlayerState.Bag;
+        }
     }
 
     void EndBattle(bool won)
@@ -65,6 +75,14 @@ public class GameController : MonoBehaviour
                 menuController.CloseMenu();
                 state = PlayerState.FreeRoam;
                 playerController.SetCanMove(true);
+            }
+        }
+        else if (state == PlayerState.Bag)
+        {
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                inventoryUI.gameObject.SetActive(false);
+                state = PlayerState.FreeRoam;
             }
         }
     }

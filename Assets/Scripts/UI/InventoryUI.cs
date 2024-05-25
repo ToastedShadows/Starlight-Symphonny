@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class InventoryUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void HandleUpdate(Action onBack)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (input.GetKeyDown(KeyCode.X))
+            onBack?.Invoke();
     }
 }
