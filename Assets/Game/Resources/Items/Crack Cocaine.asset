@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d732ecba783874cc4ab001cfa31f7a6f, type: 3}
+  m_Name: Crack Cocaine
+  m_EditorClassIdentifier: 
+  itemName: Crack Cocaine
+  itemDescription: TAKE AT OWN RISK
+  itemIcon: {fileID: -343819889, guid: 73843f1575aa1a14883711e3778418e7, type: 3}
+  RestoreHPAmount: 0
+  restoreMaxHP: 1
+  RestorePPAmount: 0
+  restoreMaxPP: 1
+  recoverAllStatus: 1
+  revive: 0
+  maxRevive: 1
