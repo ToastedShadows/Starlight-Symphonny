@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d732ecba783874cc4ab001cfa31f7a6f, type: 3}
   m_Name: Weed
   m_EditorClassIdentifier: 
-  itemName: Donut
-  itemDescription: 'Yummmy '
-  itemIcon: {fileID: 21300000, guid: d9d16c1d718dd46159ba587ad9285f5d, type: 3}
-  RestoreHPAmount: 15
+  itemName: Weed
+  itemDescription: 'Makes you float '
+  itemIcon: {fileID: -81388375, guid: 73843f1575aa1a14883711e3778418e7, type: 3}
+  RestoreHPAmount: 0
   restoreMaxHP: 0
   RestorePPAmount: 0
   restoreMaxPP: 0
-  recoverAllStatus: 0
+  recoverAllStatus: 1
   revive: 0
   maxRevive: 0

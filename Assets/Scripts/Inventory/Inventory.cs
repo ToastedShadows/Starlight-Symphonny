@@ -5,7 +5,14 @@ using System;
 
 public class Inventory : MonoBehaviour
 {
+    public static Inventory GetInventory()
+    {
+        return FindObjectOfType<PlayerController>().GetComponent<Inventory>();
+    }
+
     [SerializeField] List<ItemSlot> slots;
+    
+    public List<ItemSlot> Slots => slots;
 }
 
 [Serializable]
