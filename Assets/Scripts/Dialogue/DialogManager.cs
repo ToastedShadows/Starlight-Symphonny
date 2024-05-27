@@ -42,13 +42,22 @@ public class DialogManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        // Check for null references
+        if (playerController == null) Debug.LogWarning("PlayerController is not assigned.");
+        if (choiceBox == null) Debug.LogWarning("ChoiceBox is not assigned.");
+        if (dialogBox == null) Debug.LogWarning("DialogBox is not assigned.");
+        if (dialogText == null) Debug.LogWarning("DialogText is not assigned.");
     }
 
     public void Update()
     {
         if (state == GameDialogueState.FreeRoam)
         {
-            playerController.HandleUpdate();
+            if (playerController != null)
+            {
+                playerController.HandleUpdate();
+            }
         }
         else if (state == GameDialogueState.Dialog)
         {
@@ -101,17 +110,16 @@ public class DialogManager : MonoBehaviour
             }
             else if (choices != null && choices.Count > 1)
             {
-                yield return choiceBox.ShowChoices(choices, 
-                    (choiceIndex) => 
+                yield return choiceBox.ShowChoices(choices, choiceIndex =>
+                {
+                    onChoiceSelected?.Invoke(choiceIndex);
+                    if (choiceIndex == 0)
                     {
-                        onChoiceSelected?.Invoke(choiceIndex);
-                        if (choiceIndex == 0)
-                        {
-                            dialogBox.SetActive(false);
-                            dialogActive = false;
-                            OnHideDialog?.Invoke();
-                        }
-                    });
+                        dialogBox.SetActive(false);
+                        dialogActive = false;
+                        OnHideDialog?.Invoke();
+                    }
+                });
             }
         }
     }

@@ -17,21 +17,30 @@ public class DialogController : MonoBehaviour
             if (state == GameState.Dialog)
                 state = GameState.FreeRoam;
         };
+
+        // Check for null references
+        if (playerController == null) Debug.LogWarning("PlayerController is not assigned.");
     }
 
     public void Update()
     {
         if (state == GameState.FreeRoam)
         {
-            playerController.HandleUpdate();
+            if (playerController != null)
+            {
+                playerController.HandleUpdate();
+            }
         }
         else if (state == GameState.Dialog)
         {
-            DialogManager.Instance.HandleUpdate();
+            if (DialogManager.Instance != null)
+            {
+                DialogManager.Instance.HandleUpdate();
+            }
         }
         else if (state == GameState.Battle)
         {
-
+            // Handle battle updates
         }
     }
 }

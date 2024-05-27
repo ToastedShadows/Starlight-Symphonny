@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement; // Required for scene management
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    public GameObject menu; // Reference to the menu UI
+    public GameObject menu;
     public List<Text> menuOptions;
-    public Color highlightedColor = new Color(1, 1, 0, 1); // Ensure alpha is set to 1 (full opacity)
+    public Color highlightedColor = new Color(1, 1, 0, 1);
     public Color normalColor = Color.black;
 
     private int selectedOption = 0;
@@ -43,7 +43,7 @@ public class MenuController : MonoBehaviour
 
     public void HandleUpdate()
     {
-        if (menuOptions.Count == 0) return; // Ensure we have menu options to navigate
+        if (menuOptions.Count == 0) return;
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -65,47 +65,37 @@ public class MenuController : MonoBehaviour
     {
         for (int i = 0; i < menuOptions.Count; i++)
         {
-            if (i == selectedOption)
-            {
-                Color colorWithAlpha = highlightedColor;
-                colorWithAlpha.a = 1; // Ensure alpha is set to 1 (full opacity)
-                menuOptions[i].color = colorWithAlpha;
-            }
-            else
-            {
-                menuOptions[i].color = normalColor;
-            }
+            menuOptions[i].color = (i == selectedOption) ? highlightedColor : normalColor;
         }
     }
 
     private void ExecuteSelectedOption()
     {
-        // Handle the logic for each menu option
         switch (selectedOption)
         {
             case 0:
                 Debug.Log("Inventory selected");
-                // Open inventory logic here
                 break;
             case 1:
                 Debug.Log("Save selected");
-                // Save game logic here
                 break;
             case 2:
                 Debug.Log("Party selected");
-                // Party logic here
                 break;
             case 3:
                 Debug.Log("Main Menu selected");
-                // Load main menu scene
-                SceneManager.LoadScene(0); // Assuming your main menu scene is indexed at 0
+                PlayerController playerController = FindObjectOfType<PlayerController>();
+                if (playerController != null)
+                {
+                    playerController.StartSceneTransition();
+                }
+                SceneManager.LoadScene(0);
                 break;
             case 4:
                 Debug.Log("Quit selected");
-                // Quit application
                 Application.Quit();
 #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false; // Stop play mode in the editor
+                UnityEditor.EditorApplication.isPlaying = false;
 #endif
                 break;
             default:

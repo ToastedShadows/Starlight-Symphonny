@@ -15,6 +15,13 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         menuController = GetComponent<MenuController>();
+
+        // Check for null references
+        if (playerController == null) Debug.LogWarning("PlayerController is not assigned.");
+        if (battleSystem == null) Debug.LogWarning("BattleSystem is not assigned.");
+        if (worldCamera == null) Debug.LogWarning("WorldCamera is not assigned.");
+        if (inventoryUI == null) Debug.LogWarning("InventoryUI is not assigned.");
+        if (menuController == null) Debug.LogWarning("MenuController is not assigned.");
     }
 
     private void Start()

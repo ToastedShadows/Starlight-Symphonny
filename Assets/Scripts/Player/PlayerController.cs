@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 lastInput;
     private Rigidbody2D body;
     private bool canMove = true;
+    private bool isTransitioning = false; // Add this flag
 
     private Animator animator;
 
@@ -23,34 +24,39 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (canMove && !DialogManager.Instance.IsDialogActive())
+        if (canMove && !isTransitioning && !DialogManager.Instance.IsDialogActive())
             HandleMovement();
     }
 
     private void Update()
     {
-        if (canMove && !DialogManager.Instance.IsDialogActive())
+        if (canMove && !isTransitioning && !DialogManager.Instance.IsDialogActive())
             HandleUpdate();
     }
 
     public void HandleUpdate()
     {
+        if (isTransitioning) return; // Skip updates if transitioning
+
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
 
-        if (input != Vector2.zero)
+        if (animator != null)
         {
-            lastInput = input;
-            animator.SetFloat("moveX", input.x);
-            animator.SetFloat("moveY", input.y);
-        }
-        else
-        {
-            animator.SetFloat("moveX", lastInput.x);
-            animator.SetFloat("moveY", lastInput.y);
-        }
+            if (input != Vector2.zero)
+            {
+                lastInput = input;
+                animator.SetFloat("moveX", input.x);
+                animator.SetFloat("moveY", input.y);
+            }
+            else
+            {
+                animator.SetFloat("moveX", lastInput.x);
+                animator.SetFloat("moveY", lastInput.y);
+            }
 
-        animator.SetBool("isMoving", input != Vector2.zero);
+            animator.SetBool("isMoving", input != Vector2.zero);
+        }
 
         if (Input.GetKeyDown(KeyCode.Z))
             Interact();
@@ -109,5 +115,10 @@ public class PlayerController : MonoBehaviour
             Debug.Log("hit coin");
             Destroy(other.gameObject);
         }
+    }
+
+    public void StartSceneTransition()
+    {
+        isTransitioning = true; // Set transitioning flag to true
     }
 }
